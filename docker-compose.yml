@@ -1,0 +1,16 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: enterprise-genai-backend
+    ports:
+      - "8000:8000"
+    environment:
+      APP_ENV: local
+      API_KEY: dev-demo-key
+      LOCAL_DATA_DIR: /app/runtime/data_lake
+      SQLITE_DB_PATH: /app/runtime/transactions.db
+      USE_BEDROCK: "false"
+    volumes:
+      - ./backend/runtime:/app/runtime
