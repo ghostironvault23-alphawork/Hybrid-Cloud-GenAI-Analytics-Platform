@@ -14,11 +14,22 @@
 
 ---
 
-## Azure Reference Architecture
+## Architecture Views
 
-<p align="center">
-  <img src="docs/images/azure-reference-architecture.svg" alt="Azure Reference Architecture for Hybrid Cloud GenAI Analytics Platform" width="95%" />
-</p>
+<table>
+  <tr>
+    <td align="center" width="50%"><b>Azure Reference Architecture</b></td>
+    <td align="center" width="50%"><b>Simplified Project Flow</b></td>
+  </tr>
+  <tr>
+    <td align="center" valign="top">
+      <img src="docs/images/azure-reference-architecture.svg" alt="Azure Reference Architecture for Hybrid Cloud GenAI Analytics Platform" width="100%" />
+    </td>
+    <td align="center" valign="top">
+      <img src="docs/images/hybrid-cloud-genai-analytics-flow.svg" alt="Simplified Hybrid Cloud GenAI Analytics Flow" width="100%" />
+    </td>
+  </tr>
+</table>
 
 ---
 
@@ -93,7 +104,8 @@ Hybrid-Cloud-GenAI-Analytics-Platform/
 ├── data/sample/
 ├── docs/
 │   ├── images/
-│   │   └── azure-reference-architecture.svg
+│   │   ├── azure-reference-architecture.svg
+│   │   └── hybrid-cloud-genai-analytics-flow.svg
 │   ├── api.md
 │   ├── architecture.md
 │   ├── gui-demo-script.md
@@ -165,9 +177,7 @@ python scripts/seed_data.py
 ### 6. Test the AI workflow
 
 ```bash
-curl -X POST http://localhost:8000/ask-ai \
-  -H "Content-Type: application/json" \
-  -d "{\"question\":\"Why did payment service fail?\",\"user_id\":\"demo-user\",\"role\":\"Engineer\"}"
+curl -X POST http://localhost:8000/ask-ai -H "Content-Type: application/json" -d "{\"question\":\"Why did payment service fail?\",\"user_id\":\"demo-user\",\"role\":\"Engineer\"}"
 ```
 
 ### 7. Open frontend demo
