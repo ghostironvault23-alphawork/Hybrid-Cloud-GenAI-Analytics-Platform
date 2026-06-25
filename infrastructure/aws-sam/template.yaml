@@ -1,0 +1,70 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Hybrid Cloud GenAI Analytics Platform serverless starter template.
+
+Globals:
+  Function:
+    Runtime: python3.12
+    Timeout: 30
+    MemorySize: 512
+
+Resources:
+  DataLakeBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+
+  TransactionsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: request_id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: request_id
+          KeyType: HASH
+
+  ApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../../backend/
+      Handler: app.lambda_handler.handler
+      Environment:
+        Variables:
+          APP_ENV: aws
+          USE_BEDROCK: "true"
+      Policies:
+        - S3ReadPolicy:
+            BucketName: !Ref DataLakeBucket
+        - S3WritePolicy:
+            BucketName: !Ref DataLakeBucket
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TransactionsTable
+        - Statement:
+            Effect: Allow
+            Action:
+              - bedrock:InvokeModel
+            Resource: "*"
+      Events:
+        Api:
+          Type: HttpApi
+
+Outputs:
+  ApiUrl:
+    Description: HTTP API endpoint
+    Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com"
+  DataLakeBucketName:
+    Description: S3 data lake bucket
+    Value: !Ref DataLakeBucket
+  TransactionsTableName:
+    Description: DynamoDB transactions table
+    Value: !Ref TransactionsTable
