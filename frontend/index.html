@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Hybrid Cloud GenAI Analytics Platform</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <p class="eyebrow">Hybrid Cloud • RAG • Data Lake • Business Intelligence</p>
+      <h1>Hybrid Cloud GenAI Analytics Platform</h1>
+      <p class="subtitle">Ask questions over cloud logs, IoT telemetry, and on-prem business events.</p>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2>Ask AI Analyst</h2>
+        <label for="question">Question</label>
+        <textarea id="question" rows="5">Why did payment service fail?</textarea>
+
+        <label for="role">Role</label>
+        <select id="role">
+          <option>Engineer</option>
+          <option>Analyst</option>
+          <option>Admin</option>
+          <option>Viewer</option>
+        </select>
+
+        <button id="askBtn">Ask AI</button>
+      </article>
+
+      <article class="card">
+        <h2>AI Response</h2>
+        <pre id="answer">Start backend, seed sample data, then ask a question.</pre>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>Platform Summary</h2>
+      <button id="summaryBtn">Load Summary</button>
+      <pre id="summary">No summary loaded yet.</pre>
+    </section>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
