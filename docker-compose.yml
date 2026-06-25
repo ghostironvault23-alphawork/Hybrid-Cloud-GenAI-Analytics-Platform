@@ -3,7 +3,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: enterprise-genai-backend
+    container_name: hybrid-cloud-genai-backend
     ports:
       - "8000:8000"
     environment:
