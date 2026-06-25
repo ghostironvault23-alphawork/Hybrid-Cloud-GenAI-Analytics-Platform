@@ -7,9 +7,18 @@
 ![Status](https://img.shields.io/badge/Status-Recruiter%20Demo%20Ready-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
-A recruiter-ready **Enterprise GenAI Data Platform** that demonstrates hybrid cloud architecture, data lake design, secure ingestion, RAG-style retrieval, AI-powered root cause analysis, IoT/cloud/on-prem event processing, and business intelligence output.
+**Hybrid Cloud GenAI analytics platform for cloud logs, IoT telemetry, on-prem events, RAG-based root cause analysis, secure data lake ingestion, and business intelligence reporting.**
 
-The project runs locally without paid cloud resources. It uses a deterministic mock AI analyst by default, so the full workflow can be tested safely. The same design maps to AWS services such as S3, Lambda, API Gateway, DynamoDB, Bedrock, Glue, Athena, QuickSight, IAM, Cognito, and CloudWatch.
+**Local MVP:** FastAPI + SQLite + JSONL Data Lake + Mock GenAI.  
+**Cloud Target:** AWS / Azure deployment using managed AI, storage, API, monitoring, and security services.
+
+---
+
+## Azure Reference Architecture
+
+<p align="center">
+  <img src="docs/images/azure-reference-architecture.svg" alt="Azure Reference Architecture for Hybrid Cloud GenAI Analytics Platform" width="95%" />
+</p>
 
 ---
 
@@ -83,6 +92,8 @@ Hybrid-Cloud-GenAI-Analytics-Platform/
 │   └── Dockerfile
 ├── data/sample/
 ├── docs/
+│   ├── images/
+│   │   └── azure-reference-architecture.svg
 │   ├── api.md
 │   ├── architecture.md
 │   ├── gui-demo-script.md
