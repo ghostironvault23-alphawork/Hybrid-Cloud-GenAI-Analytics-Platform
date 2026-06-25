@@ -1,56 +1,73 @@
-# Enterprise GenAI Data Platform
+# Hybrid Cloud GenAI Analytics Platform
 
-**Hybrid Cloud AI Analytics with Data Lake, RAG, IoT, On-Prem Integration, and Business Intelligence**
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green)
+![GenAI](https://img.shields.io/badge/GenAI-RAG-purple)
+![Cloud](https://img.shields.io/badge/Cloud-AWS%20%7C%20Azure-orange)
+![Status](https://img.shields.io/badge/Status-Recruiter%20Demo%20Ready-brightgreen)
+![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
-This project is a recruiter-ready GitHub showcase for an enterprise GenAI architecture. It demonstrates how users, IoT devices, public cloud systems, and on-prem systems can send data into a secure middle layer, store it in a data lake or transaction database, and use a GenAI/RAG-style workflow to produce business outputs like summaries, root cause analysis, alerts, and reports.
+A recruiter-ready **Enterprise GenAI Data Platform** that demonstrates hybrid cloud architecture, data lake design, secure ingestion, RAG-style retrieval, AI-powered root cause analysis, IoT/cloud/on-prem event processing, and business intelligence output.
 
-> Local MVP runs without AWS or paid AI APIs. The AI response is deterministic and mock-based by default, so you can demo the full flow safely. Optional Amazon Bedrock integration can be added later.
+The project runs locally without paid cloud resources. It uses a deterministic mock AI analyst by default, so the full workflow can be tested safely. The same design maps to AWS services such as S3, Lambda, API Gateway, DynamoDB, Bedrock, Glue, Athena, QuickSight, IAM, Cognito, and CloudWatch.
+
+---
+
+## What This Project Solves
+
+Modern enterprises have scattered data across cloud logs, IoT telemetry, on-prem tickets, business events, and user requests. This platform brings that data into one controlled middle layer, stores it in a data lake, retrieves relevant context, and generates business-ready AI outputs such as:
+
+- root cause analysis
+- incident summaries
+- operational recommendations
+- data quality insights
+- business reports
+- dashboard-ready metrics
+
+---
+
+## Architecture
+
+```mermaid
+flowchart LR
+    U[Users / Admins / Engineers] --> API[FastAPI Backend API]
+    C[Public Cloud Logs] --> API
+    I[IoT Telemetry] --> API
+    O[On-Prem Tickets] --> API
+
+    API --> V[Validation + Masking + RBAC]
+    V --> DL[(Local Data Lake / S3)]
+    V --> DB[(SQLite / DynamoDB)]
+    DL --> R[RAG-Style Retrieval]
+    R --> AI[Mock GenAI Analyst / Amazon Bedrock]
+    AI --> OUT[Reports / RCA / Alerts / Business Insights]
+```
 
 ---
 
 ## Key Features
 
-- Secure API backend using FastAPI
-- Local RAG-style retrieval over uploaded enterprise events
-- Mock GenAI analyst for offline demo
-- Optional Amazon Bedrock-ready service layer
-- Data ingestion for:
-  - cloud logs
-  - IoT telemetry
-  - on-prem tickets
-  - business events
-- Local file-based data lake simulation
-- SQLite transaction database for requests and responses
-- Static frontend demo UI
-- Dockerfile and Docker Compose
-- AWS SAM and Terraform starter infrastructure
-- CI workflow for syntax checks and tests
-- Recruiter explanation docs and interview Q&A
-
----
-
-## Architecture Summary
-
-```text
-Users / IoT / On-Prem / Public Cloud
-        ↓
-API Gateway / Backend API
-        ↓
-Validation + Processing + Masking
-        ↓
-Data Lake + Transaction DB
-        ↓
-RAG Retrieval + AI Layer
-        ↓
-Reports / Summaries / Root Cause / Business Insights
-```
+| Area | Implementation |
+|---|---|
+| Backend API | FastAPI with typed request/response models |
+| Data Ingestion | Cloud logs, IoT telemetry, on-prem tickets, business events |
+| Data Lake | Local file-based JSONL data lake simulation |
+| Transaction DB | SQLite for AI request history and audit records |
+| AI Layer | Mock GenAI analyst with optional Amazon Bedrock service layer |
+| RAG Flow | Keyword-based local retrieval for recruiter demo |
+| Security | API key check, role-based access, PII masking, audit logging |
+| Frontend | Static HTML/CSS/JS demo dashboard |
+| DevOps | Docker, Docker Compose, GitHub Actions CI |
+| Infrastructure | AWS SAM and Terraform starter templates |
+| Documentation | API guide, architecture guide, GUI demo script, interview Q&A |
 
 ---
 
 ## Repository Structure
 
 ```text
-enterprise-genai-data-platform/
+Hybrid-Cloud-GenAI-Analytics-Platform/
+├── .github/workflows/ci.yml
 ├── backend/
 │   ├── app/
 │   │   ├── main.py
@@ -64,20 +81,23 @@ enterprise-genai-data-platform/
 │   ├── tests/
 │   ├── requirements.txt
 │   └── Dockerfile
+├── data/sample/
+├── docs/
+│   ├── api.md
+│   ├── architecture.md
+│   ├── gui-demo-script.md
+│   ├── interview-qna.md
+│   └── roadmap.md
 ├── frontend/
 │   ├── index.html
 │   ├── styles.css
 │   └── app.js
-├── data/
-│   └── sample/
-├── docs/
 ├── infrastructure/
-│   ├── aws-sam/
+│   ├── aws-sam/template.yaml
 │   └── terraform/
+├── postman/
 ├── scripts/
-├── .github/workflows/
 ├── docker-compose.yml
-├── .env.example
 └── README.md
 ```
 
@@ -88,20 +108,16 @@ enterprise-genai-data-platform/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/<your-username>/enterprise-genai-data-platform.git
-cd enterprise-genai-data-platform
+git clone https://github.com/ghostironvault23-alphawork/Hybrid-Cloud-GenAI-Analytics-Platform.git
+cd Hybrid-Cloud-GenAI-Analytics-Platform
 ```
 
-### 2. Create Python environment
+### 2. Create and activate Python environment
 
 ```bash
 cd backend
 python -m venv .venv
-```
 
-Activate it:
-
-```bash
 # Windows
 .venv\Scripts\activate
 
@@ -115,13 +131,60 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4. Start backend
+### 4. Start the backend
 
 ```bash
 uvicorn app.main:app --reload --port 8000
 ```
 
-Backend will run at:
+Open API docs:
+
+```text
+http://localhost:8000/docs
+```
+
+### 5. Seed sample enterprise data
+
+Open a second terminal from the project root:
+
+```bash
+python scripts/seed_data.py
+```
+
+### 6. Test the AI workflow
+
+```bash
+curl -X POST http://localhost:8000/ask-ai \
+  -H "Content-Type: application/json" \
+  -d "{\"question\":\"Why did payment service fail?\",\"user_id\":\"demo-user\",\"role\":\"Engineer\"}"
+```
+
+### 7. Open frontend demo
+
+Open this file in your browser:
+
+```text
+frontend/index.html
+```
+
+Try these demo questions:
+
+```text
+Why did payment service fail?
+Show IoT anomalies
+Summarize cloud cost issues
+What are the latest critical events?
+```
+
+---
+
+## Docker Demo
+
+```bash
+docker compose up --build
+```
+
+Backend:
 
 ```text
 http://localhost:8000
@@ -133,34 +196,6 @@ API docs:
 http://localhost:8000/docs
 ```
 
-### 5. Seed sample data
-
-Open a second terminal from the project root:
-
-```bash
-python scripts/seed_data.py
-```
-
-### 6. Open frontend
-
-Open this file in your browser:
-
-```text
-frontend/index.html
-```
-
-Ask:
-
-```text
-Why did payment service fail?
-```
-
-or
-
-```text
-Show IoT anomalies
-```
-
 ---
 
 ## API Endpoints
@@ -168,64 +203,82 @@ Show IoT anomalies
 | Method | Endpoint | Purpose |
 |---|---|---|
 | GET | `/health` | Check backend status |
-| POST | `/ingest/event` | Ingest one event |
+| POST | `/ingest/event` | Ingest one enterprise event |
 | POST | `/ingest/batch` | Ingest multiple events |
 | POST | `/ask-ai` | Ask AI analyst a question |
-| GET | `/reports/summary` | Get platform summary |
-| GET | `/events/search` | Search local data lake events |
+| GET | `/reports/summary` | Get platform summary report |
+| GET | `/events/search` | Search data lake events |
 
 ---
 
-## Example Request
+## Local MVP to Cloud Mapping
 
-```bash
-curl -X POST http://localhost:8000/ask-ai \
-  -H "Content-Type: application/json" \
-  -d "{\"question\":\"Why did payment service fail?\",\"user_id\":\"demo-user\",\"role\":\"Engineer\"}"
-```
+| Local MVP Component | AWS Equivalent | Azure Equivalent |
+|---|---|---|
+| Static frontend | S3 + CloudFront / Amplify | Static Web Apps |
+| FastAPI backend | Lambda / ECS / EKS | App Service / Functions |
+| Local data lake | Amazon S3 | Azure Data Lake Storage Gen2 |
+| SQLite transactions | DynamoDB / RDS | Cosmos DB / Azure SQL |
+| Mock AI analyst | Amazon Bedrock | Azure OpenAI |
+| Local retrieval | Bedrock Knowledge Base / OpenSearch | Azure AI Search |
+| Local logs | CloudWatch | Application Insights |
+| API routes | API Gateway | API Management |
+| API key demo auth | Cognito + JWT | Azure AD B2C / Entra ID |
+| Scripts | Glue / Step Functions | Data Factory / Logic Apps |
 
 ---
 
 ## Recruiter Pitch
 
-“I built a hybrid enterprise GenAI data platform that ingests data from on-prem systems, IoT devices, and public cloud logs. The middle layer validates, masks, and stores the data in a data lake and transaction database. Then a RAG-style AI layer retrieves relevant context and generates business outputs like summaries, root cause analysis, alerts, and reports. The MVP runs locally using FastAPI, SQLite, and a mock GenAI service, and it is designed to scale on AWS using S3, Lambda, API Gateway, DynamoDB, Bedrock, Glue, Athena, QuickSight, IAM, and CloudWatch.”
+> I built a hybrid cloud GenAI analytics platform that ingests data from public cloud logs, IoT telemetry, and on-prem systems. The middle layer validates, masks, and stores data into a data lake and transaction database. A RAG-style retrieval layer finds relevant enterprise context, and the AI layer generates root cause analysis, summaries, reports, and recommendations. The MVP runs locally using FastAPI, SQLite, and a mock GenAI service, and it is designed to scale on AWS or Azure using managed cloud services.
 
 ---
 
-## AWS Mapping
+## Validation
 
-| Local MVP | AWS Production Equivalent |
+Run syntax checks and tests:
+
+```bash
+cd backend
+python -m compileall app
+pytest
+```
+
+Expected result:
+
+```text
+2 passed
+```
+
+---
+
+## Documentation
+
+| Document | Purpose |
 |---|---|
-| FastAPI | Lambda/ECS/EKS |
-| Local files | S3 Data Lake |
-| SQLite | DynamoDB/RDS |
-| Mock AI service | Amazon Bedrock |
-| Static frontend | S3 + CloudFront / Amplify |
-| Local logs | CloudWatch |
-| Local scripts | Glue / Step Functions |
-| Manual auth header | Cognito + JWT |
-| Local search | Bedrock Knowledge Base / OpenSearch |
+| `docs/architecture.md` | End-to-end architecture explanation |
+| `docs/api.md` | API endpoint guide |
+| `docs/gui-demo-script.md` | Recruiter demo explanation script |
+| `docs/interview-qna.md` | Interview questions and concise answers |
+| `docs/roadmap.md` | Project improvement roadmap |
+| `VALIDATION.md` | Local validation checklist |
+| `SECURITY.md` | Security design notes |
 
 ---
 
 ## Future Improvements
 
-- Add Cognito authentication
-- Add Amazon Bedrock Knowledge Base
-- Add OpenSearch vector database
-- Add real IoT Core ingestion
-- Add QuickSight dashboards
-- Add CI/CD deployment pipeline
-- Add PII detection and advanced data masking
-- Add multi-cloud connectors for Azure and GCP
+- Add Cognito / Azure AD B2C authentication
+- Add Amazon Bedrock or Azure OpenAI live integration
+- Add vector search with OpenSearch or Azure AI Search
+- Add dashboards with QuickSight or Power BI
+- Add real IoT Core / Azure IoT Hub ingestion
+- Add CI/CD deployment to cloud
+- Add PII detection and guardrails
+- Add multi-cloud data connectors
 
 ---
 
 ## License
 
 MIT License
-
-
-## Reference Architecture Diagram
-
-![Architecture Reference](docs/images/architecture-reference.png)
